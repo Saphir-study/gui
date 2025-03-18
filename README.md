@@ -48,7 +48,99 @@ label.grid(row=0, column=0)
 Tkinter позволяет реагировать на действия пользователя, такие как нажатие кнопки или ввод текста. Для этого используется параметр **`command`** у виджетов (например, кнопок) или привязка событий с помощью метода **`bind`**.
 
 Пример обработки нажатия кнопки:
+```python
+def on_button_click():
+    print("Кнопка нажата!")
 
+button = tk.Button(root, text="Нажми меня", command=on_button_click)
+button.pack()
+```
+### 5. Переменные Tkinter
+
+Tkinter предоставляет специальные переменные ( **`StringVar`**,  **`IntVar`**,  **`DoubleVar`** и т.д.), которые позволяют связывать данные с виджетами. Например,  **`StringVar`** используется для хранения текста, который может быть связан с меткой или полем ввода.
+
+Пример использования  **`StringVar`**:
+```python
+text_var = tk.StringVar()
+label = tk.Label(root, textvariable=text_var)
+text_var.set("Привет, Tkinter!")
+```
+
+
+
+## Пример: Калькулятор на Tkinter
+В качестве примера использования Tkinter рассмотрим простой калькулятор, который выполняет базовые арифметические операции.
+
+Код калькулятора
+
+```python
+import tkinter as tk
+
+# Функции для обработки нажатий кнопок
+def button_click(item):
+    global expression
+    expression += str(item)
+    input_text.set(expression)
+
+def button_clear():
+    global expression
+    expression = ""
+    input_text.set("")
+
+def button_equal():
+    global expression
+    try:
+        result = str(eval(expression))
+        input_text.set(result)
+        expression = result
+    except:
+        input_text.set("Ошибка")
+        expression = ""
+
+# Создание главного окна
+root = tk.Tk()
+root.title("Калькулятор")
+root.geometry("300x400")
+
+expression = ""
+input_text = tk.StringVar()
+
+# Поле для ввода
+input_field = tk.Entry(root, textvariable=input_text, font=('arial', 18), bd=10, justify=tk.RIGHT)
+input_field.pack(fill=tk.BOTH, ipadx=8, pady=10, padx=10)
+
+# Кнопки
+buttons = [
+    '7', '8', '9', '/',
+    '4', '5', '6', '*',
+    '1', '2', '3', '-',
+    '0', '.', '=', '+'
+]
+
+frame = tk.Frame(root)
+frame.pack()
+
+row, col = 0, 0
+for button in buttons:
+    tk.Button(frame, text=button, width=5, height=2, command=lambda x=button: button_click(x) if x != '=' else button_equal()).grid(row=row, column=col)
+    col += 1
+    if col > 3:
+        col = 0
+        row += 1
+
+# Кнопка очистки
+tk.Button(root, text="C", width=20, height=2, command=button_clear).pack()
+
+# Запуск приложения
+root.mainloop()
+```
+
+### Основные элементы приложения
+
+- **Главное окно**: Создается с помощью `tk.Tk()`.
+- **Поле ввода**: Используется `tk.Entry` для отображения вводимых данных и результатов.
+- **Кнопки**: Создаются с помощью `tk.Button` и привязаны к функциям, которые обрабатывают нажатия.
+- **Обработка событий**: Функции `button_click`, `button_clear` и `button_equal` реагируют на действия пользователя.
 
 
 
