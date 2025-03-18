@@ -5,7 +5,7 @@
 3. Попытайтесь запустить код. Если при запуске кода происходят ошибки, пролистните этот README до конца, скопируйте код, вставьте его в новый пустой документ и сохраните его как код для Python. 
 4. Если проблема не решена, скажите об этом кому-нибудь из моей команды. 
 
-Я буду рассказывать об библиотеке Tkinter. На каждом этапе вы будете встречать как просто примеры для наглядности, так и примеры их моего кода.  
+Я буду рассказывать об библиотеке Tkinter. На каждом этапе вы будете встречать с начала простой пример примеры для наглядности, а затем как это использовано в моем коде.
 
 
 # Что такое Tkinter?
@@ -106,11 +106,13 @@ buttons_frame.pack()
 tk.Button(buttons_frame, text=button, ...).grid(row=row, column=col, padx=1, pady=1)
 ```
 
+
+
 ### 4. Обработка событий
 
 Tkinter позволяет реагировать на действия пользователя, такие как нажатие кнопки или ввод текста. Для этого используется параметр **`command`** у виджетов (например, кнопок) или привязка событий с помощью метода **`bind`**.
 
-Пример обработки нажатия кнопки:
+#### Пример обработки нажатия кнопки:
 ```python
 def on_button_click():
     print("Кнопка нажата!")
@@ -118,15 +120,55 @@ def on_button_click():
 button = tk.Button(root, text="Нажми меня", command=on_button_click)
 button.pack()
 ```
+
+#### Пример из моего кода
+
+**`button_click`**  — обработка нажатия кнопок.
+```python
+def button_click(item):
+    global expression
+    expression = expression + str(item)
+    input_text.set(expression)
+```
+
+**`button_clear`** — очистка поля ввода.
+```python
+def button_clear():
+    global expression
+    expression = ""
+    input_text.set("")
+```
+
+**`button_equal`** — вычисление результата.
+```python
+def button_equal():
+    global expression
+    try:
+        result = str(eval(expression))
+        input_text.set(result)
+        expression = result
+    except:
+        input_text.set("Error")
+        expression = ""
+```
+
+
 ### 5. Переменные Tkinter
 
 Tkinter предоставляет специальные переменные ( **`StringVar`**,  **`IntVar`**,  **`DoubleVar`** и т.д.), которые позволяют связывать данные с виджетами. Например,  **`StringVar`** используется для хранения текста, который может быть связан с меткой или полем ввода.
 
-Пример использования  **`StringVar`**:
+#### Пример использования  **`StringVar`**:
 ```python
 text_var = tk.StringVar()
 label = tk.Label(root, textvariable=text_var)
 text_var.set("Привет, Tkinter!")
+```
+
+#### Пример из моего кода
+**`tk.StringVar`** — связь текста с полем ввода.
+```python
+input_text = tk.StringVar()
+input_field = tk.Entry(..., textvariable=input_text)
 ```
 
 
