@@ -17,20 +17,22 @@ I will be talking about the Tkinter library. At each stage, you will first see a
 ### 1. Main Window
 Every Tkinter application starts by creating a main window. This window serves as a container for all other UI elements. It is created using the `Tk` class:
 
-#### Example:
+#### Basic Example:
 ```python
 import tkinter as tk
 
-root = tk.Tk()
-root.title("My Application")
-root.mainloop()
+root = tk.Tk()  # Create root window
+root.title("My App")  # Window title
+root.geometry("400x500")  # Dimensions (width x height)
+root.mainloop()  # Main event loop
 ```
 
 #### Example from my code:
 ```python
 root = tk.Tk()
-root.title("Calculator")
-root.geometry("300x400")
+root.title("Calculator")  # Window title
+root.geometry("300x400")  # Fixed window size
+root.resizable(False, False)  # Disable resizing
 ```
 
 
@@ -49,8 +51,12 @@ root.geometry("300x400")
 
 #### Example of creating a button:
 ```python
-button = tk.Button(root, text="Click me", command=some_function)
-button.pack()
+button = tk.Button(
+    root,                  # Parent container
+    text="Click Me",       # Button text
+    command=some_function  # Click handler
+)
+button.pack()             # Add to window
 ```
 
 
@@ -58,19 +64,51 @@ button.pack()
 
 **`tk.Entry`** — text input field:
 ```python
-input_field = tk.Entry(input_frame, font=('arial', 18, 'bold'), textvariable=input_text, width=50, bg="#eee", bd=0, justify=tk.RIGHT)
+input_field = tk.Entry(
+    input_frame,                     # Parent frame
+    font=('arial', 18, 'bold'),      # Font styling
+    textvariable=input_text,         # Linked variable
+    width=50,                        # Width in chars
+    bg="#eee",                       # Light gray background
+    bd=0,                            # No border
+    justify=tk.RIGHT                 # Right-aligned text
+)
 ```
 
 **`tk.Button`** — calculator buttons:
 ```python
-tk.Button(buttons_frame, text=button, fg="black", width=10, height=3, bd=0, bg="#fff", cursor="hand2",
-          command=lambda x=button: button_click(x) if x != '=' else button_equal())
+tk.Button(
+    buttons_frame,                   # Parent container
+    text=button,                     # Button label
+    fg="black",                      # Text color
+    width=10, height=3,              # Dimensions
+    bd=0,                            # No border
+    bg="#fff",                       # White background
+    cursor="hand2",                  # Pointer cursor
+    command=lambda x=button:         # Click handler
+        button_click(x) if x != '='  # For digits/operators
+        else button_equal()          # For equals button
+)
 ```
 
 **`tk.Frame`** — container for grouping widgets:
 ```python
-input_frame = tk.Frame(root, width=312, height=50, bd=0, highlightbackground="black", highlightcolor="black", highlightthickness=1)
-buttons_frame = tk.Frame(root, width=312, height=272.5, bg="grey")
+# Input frame
+input_frame = tk.Frame(
+    root,                           # Parent window
+    width=312, height=50,           # Dimensions
+    bd=0,                           # No border
+    highlightbackground="black",    # Border color
+    highlightcolor="black",         # Active border
+    highlightthickness=1            # Border width
+)
+
+# Buttons frame
+buttons_frame = tk.Frame(
+    root,
+    width=312, height=272.5,
+    bg="grey"                       # Gray background
+)
 ```
 
 
@@ -87,8 +125,8 @@ To display widgets in the window, you need to place them using one of three geom
 #### Example using **`grid()`**:
 
 ```python
-label = tk.Label(root, text="Hello, Tkinter!")
-label.grid(row=0, column=0)
+label = tk.Label(root, text="Hello Tkinter!")
+label.grid(row=0, column=0)  # Place in grid
 ```
 
 
@@ -96,13 +134,20 @@ label.grid(row=0, column=0)
 
 **`pack()`** — placing widgets:
 ```python
-input_frame.pack(side=tk.TOP)
-buttons_frame.pack()
+input_frame.pack(side=tk.TOP)  # Top section
+buttons_frame.pack()            # Below input
 ```
 
 **`grid()`** — arranging buttons in a table format:
 ```python
-tk.Button(buttons_frame, text=button, ...).grid(row=row, column=col, padx=1, pady=1)
+tk.Button(
+    buttons_frame,
+    text=button,
+    # ... other parameters ...
+).grid(
+    row=row, column=col,  # Grid position
+    padx=1, pady=1        # Padding
+)
 ```
 
 
@@ -113,11 +158,10 @@ Tkinter allows reacting to user actions, such as **button clicks** or **text inp
 
 #### Example of handling a button click:
 ```python
-def on_button_click():
+def on_click():
     print("Button clicked!")
 
-button = tk.Button(root, text="Click me", command=on_button_click)
-button.pack()
+button = tk.Button(root, text="Click", command=on_click)
 ```
 
 #### Example from my code
@@ -126,7 +170,19 @@ button.pack()
 ```python
 def button_click(item):
     global expression
-    expression = expression + str(item)
+    current = input_text.get()
+    
+    # Clear if showing result or digit after number
+    if '=' in current or (current and current[-1] not in '+-*/' 
+                       and (item.isdigit() or item == '.')):
+        expression = ""
+        input_text.set("")
+    
+    # Prevent duplicate decimals
+    if item == '.' and '.' in expression.split(' ')[-1]:
+        return
+    
+    expression += str(item)
     input_text.set(expression)
 ```
 
@@ -144,7 +200,7 @@ def button_equal():
     global expression
     try:
         result = str(eval(expression))
-        input_text.set(result)
+        input_text.set(f"{expression}={result}")  # Show full equation
         expression = result
     except:
         input_text.set("Error")
@@ -157,14 +213,20 @@ def button_equal():
 Tkinter provides special variables ( **`StringVar`**,  **`IntVar`**,  **`DoubleVar`** etc.) that allow linking data to widgets. For example, **`StringVar`** is used to store text that can be linked to a label or input field.
 
 ```python
-text_var = tk.StringVar()
-label = tk.Label(root, textvariable=text_var)
-text_var.set("Hello, Tkinter!")
+text_var = tk.StringVar()  # Create variable
+label = tk.Label(
+    root,
+    textvariable=text_var  # Bind to widget
+)
+text_var.set("New Value")  # Update value
 ```
 
 #### Example from my code
 **`tk.StringVar`** — linking text to an input field:
 ```python
-input_text = tk.StringVar()
-input_field = tk.Entry(..., textvariable=input_text)
+input_text = tk.StringVar()  # Expression variable
+input_field = tk.Entry(
+    ...,
+    textvariable=input_text  # Bind to entry field
+)
 ```
