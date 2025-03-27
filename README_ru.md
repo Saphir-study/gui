@@ -22,16 +22,18 @@
 ```python
 import tkinter as tk
 
-root = tk.Tk()
-root.title("Мое приложение")
-root.mainloop()
+root = tk.Tk()  # Создание корневого окна
+root.title("Мое приложение")  # Заголовок
+root.geometry("400x500")  # Размеры (ширина x высота)
+root.mainloop()  # Главный цикл обработки событий
 ```
 
 #### Пример из моего кода:
 ```python
 root = tk.Tk()
-root.title("Calculator")
-root.geometry("300x400")
+root.title("Calculator")  # Установка заголовка "Калькулятор"
+root.geometry("300x400")  # Фиксированный размер окна
+root.resizable(False, False)  # Запрет изменения размера (добавлено в текущей версии)
 ```
 
 
@@ -50,8 +52,13 @@ root.geometry("300x400")
 
 #### Пример создания кнопки:
 ```python
-button = tk.Button(root, text="Нажми меня", command=some_function)
-button.pack()
+# Создание простой кнопки
+button = tk.Button(
+    root,                     # Родительский контейнер
+    text="Нажми меня",        # Текст на кнопке
+    command=some_function     # Функция-обработчик
+)
+button.pack()                # Размещение кнопки в окне
 ```
 
 
@@ -59,19 +66,54 @@ button.pack()
 
 **`tk.Entry`** — поле для ввода текста.
 ```python
-input_field = tk.Entry(input_frame, font=('arial', 18, 'bold'), textvariable=input_text, width=50, bg="#eee", bd=0, justify=tk.RIGHT)
+input_field = tk.Entry(
+    input_frame,                              # Родительский фрейм
+    font=('arial', 18, 'bold'),               # Шрифт: Arial 18pt (жирный)
+    textvariable=input_text,                  # Привязка к переменной
+    width=50,                                 # Ширина в символах
+    bg="#eee",                                # Цвет фона (светло-серый)
+    bd=0,                                     # Без рамки
+    justify=tk.RIGHT                          # Выравнивание текста справа
+)
 ```
 
 **`tk.Button`** — кнопки калькулятора
 ```python
-tk.Button(buttons_frame, text=button, fg="black", width=10, height=3, bd=0, bg="#fff", cursor="hand2",
-          command=lambda x=button: button_click(x) if x != '=' else button_equal())
+tk.Button(
+    buttons_frame,                            # Контейнер для кнопок
+    text=button,                              # Текст с цифрой/оператором
+    fg="black",                               # Цвет текста
+    width=10,                                 # Ширина кнопки
+    height=3,                                 # Высота кнопки
+    bd=0,                                     # Без рамки
+    bg="#fff",                                # Белый фон
+    cursor="hand2",                           # Изменение курсора при наведении
+    command=lambda x=button:                  # Обработчик с условием:
+        button_click(x) if x != '='           # Для цифр/операторов
+        else button_equal()                   # Для кнопки "="
+)
 ```
 
 **`tk.Frame`** — контейнер для группировки виджетов.
 ```python
-input_frame = tk.Frame(root, width=312, height=50, bd=0, highlightbackground="black", highlightcolor="black", highlightthickness=1)
-buttons_frame = tk.Frame(root, width=312, height=272.5, bg="grey")
+# Фрейм для поля ввода
+input_frame = tk.Frame(
+    root,                                     # Главное окно
+    width=312,                                # Ширина в пикселях
+    height=50,                                # Высота
+    bd=0,                                     # Без рамки
+    highlightbackground="black",              # Цвет границы
+    highlightcolor="black",                   # Цвет при активации
+    highlightthickness=1                      # Толщина границы
+)
+
+# Фрейм для кнопок
+buttons_frame = tk.Frame(
+    root,
+    width=312,
+    height=272.5,
+    bg="grey"                                 # Серый фон
+)
 ```
 
 
