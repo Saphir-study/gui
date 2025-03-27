@@ -32,7 +32,6 @@ root.mainloop()  # Main event loop
 root = tk.Tk()
 root.title("Calculator")  # Window title
 root.geometry("300x400")  # Fixed window size
-root.resizable(False, False)  # Disable resizing
 ```
 
 
