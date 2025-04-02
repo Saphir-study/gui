@@ -6,18 +6,18 @@
 
 #### Пример:
 ```python
-import tkinter as tk
+import tkinter as tk  # Импорт библиотеки Tkinter
 
-root = tk.Tk()
-root.title("Мое приложение")
-root.mainloop()
+root = tk.Tk()        # Создание корневого окна приложения
+root.title("Мое приложение")  # Установка заголовка окна
+root.mainloop()       # Запуск главного цикла обработки событий
 ```
 
 #### Пример из моего кода:
 ```python
-root = tk.Tk()
-root.title("Calculator")
-root.geometry("300x400")
+root = tk.Tk()                   # Создание главного окна калькулятора
+root.title("Calculator")         # Установка заголовка "Калькулятор"
+root.geometry("300x400")         # Установка фиксированного размера окна
 ```
 
 
@@ -33,8 +33,12 @@ root.geometry("300x400")
 
 #### Пример создания кнопки:
 ```python
-button = tk.Button(root, text="Нажми меня", command=some_function)
-button.pack()
+button = tk.Button(
+    root,                     # Родительское окно для кнопки
+    text="Нажми меня",        # Текст, отображаемый на кнопке
+    command=some_function     # Функция, вызываемая при нажатии
+)
+button.pack()                # Размещение кнопки в окне
 ```
 
 
@@ -42,19 +46,52 @@ button.pack()
 
 **`tk.Entry`** — поле для ввода текста.
 ```python
-input_field = tk.Entry(input_frame, font=('arial', 18, 'bold'), textvariable=input_text, width=50, bg="#eee", bd=0, justify=tk.RIGHT)
+input_field = tk.Entry(
+    input_frame,                     # Родительский контейнер (Frame)
+    font=('arial', 18, 'bold'),      # Шрифт и его параметры
+    textvariable=input_text,         # Привязка к переменной StringVar
+    width=50,                        # Ширина в символах
+    bg="#eee",                       # Цвет фона (светло-серый)
+    bd=0,                            # Толщина границы (0 - нет границы)
+    justify=tk.RIGHT                 # Выравнивание текста справа
+)
 ```
 
 **`tk.Button`** — кнопки калькулятора
 ```python
-tk.Button(buttons_frame, text=button, fg="black", width=10, height=3, bd=0, bg="#fff", cursor="hand2",
-          command=lambda x=button: button_click(x) if x != '=' else button_equal())
+tk.Button(
+    buttons_frame,                   # Контейнер для размещения кнопок
+    text=button,                     # Текст на кнопке (цифра/оператор)
+    fg="black",                      # Цвет текста (foreground)
+    width=10,                        # Ширина кнопки
+    height=3,                        # Высота кнопки
+    bd=0,                            # Толщина границы
+    bg="#fff",                       # Цвет фона (background)
+    cursor="hand2",                  # Вид курсора при наведении
+    command=lambda x=button:         # Обработчик нажатия:
+        button_click(x) if x != '='  # Для цифр и операторов
+        else button_equal()          # Для кнопки "="
+)
 ```
 
 **`tk.Frame`** — контейнер для группировки виджетов.
 ```python
-input_frame = tk.Frame(root, width=312, height=50, bd=0, highlightbackground="black", highlightcolor="black", highlightthickness=1)
-buttons_frame = tk.Frame(root, width=312, height=272.5, bg="grey")
+input_frame = tk.Frame(
+    root,                           # Родительское окно
+    width=312,                      # Ширина в пикселях
+    height=50,                      # Высота в пикселях
+    bd=0,                           # Толщина границы
+    highlightbackground="black",    # Цвет рамки
+    highlightcolor="black",         # Цвет активной рамки
+    highlightthickness=1            # Толщина рамки
+)
+
+buttons_frame = tk.Frame(
+    root,                           # Родительское окно
+    width=312,                      # Ширина в пикселях
+    height=272.5,                   # Высота в пикселях
+    bg="grey"                       # Цвет фона
+)
 ``` 
 
 
@@ -71,8 +108,14 @@ buttons_frame = tk.Frame(root, width=312, height=272.5, bg="grey")
 #### Пример использования grid():
 
 ```python
-label = tk.Label(root, text="Привет, Tkinter!")
-label.grid(row=0, column=0)
+label = tk.Label(
+    root,                    # Родительское окно
+    text="Привет, Tkinter!"  # Текст метки
+)
+label.grid(
+    row=0,       # Номер строки в сетке
+    column=0     # Номер столбца в сетке
+)
 ```
 
 
@@ -80,13 +123,20 @@ label.grid(row=0, column=0)
 
 **`pack()`** — размещение виджетов.
 ```python
-input_frame.pack(side=tk.TOP)
-buttons_frame.pack()
+input_frame.pack(
+    side=tk.TOP  # Размещение в верхней части окна
+)
+buttons_frame.pack()  # Размещение под предыдущим элементом
 ```
 
 **`grid()`** — размещение кнопок в виде таблицы.
 ```python
-tk.Button(buttons_frame, text=button, ...).grid(row=row, column=col, padx=1, pady=1)
+tk.Button(buttons_frame, ...).grid(
+    row=row,     # Номер строки для кнопки
+    column=col,  # Номер столбца для кнопки
+    padx=1,      # Отступ по горизонтали
+    pady=1       # Отступ по вертикали
+)
 ```
 
 
@@ -96,29 +146,33 @@ Tkinter позволяет реагировать на действия поль
 
 #### Пример обработки нажатия кнопки:
 ```python
-def on_button_click():
-    print("Кнопка нажата!")
-
-button = tk.Button(root, text="Нажми меня", command=on_button_click)
-button.pack()
+def button_click(item):
+    global expression       # Использование глобальной переменной
+    expression += str(item) # Добавление символа к выражению
+    input_text.set(expression)  # Обновление текста в поле ввода
 ```
 
 #### Пример из моего кода
 
 **`button_click`**  — обработка нажатия кнопок.
 ```python
-def button_click(item):
-    global expression
-    expression = expression + str(item)
-    input_text.set(expression)
+def button_clear():
+    global expression       # Использование глобальной переменной
+    expression = ""         # Сброс выражения
+    input_text.set("")      # Очистка поля ввода
 ```
 
 **`button_clear`** — очистка поля ввода.
 ```python
-def button_clear():
-    global expression
-    expression = ""
-    input_text.set("")
+def button_equal():
+    global expression       # Использование глобальной переменной
+    try:
+        result = str(eval(expression))  # Вычисление выражения
+        input_text.set(result)          # Вывод результата
+        expression = result             # Сохранение результата
+    except:
+        input_text.set("Error")        # Вывод ошибки
+        expression = ""                # Сброс выражения
 ```
 
 **`button_equal`** — вычисление результата.
@@ -150,6 +204,9 @@ text_var.set("Привет, Tkinter!")
 #### Пример из моего кода
 **`tk.StringVar`** — связь текста с полем ввода.
 ```python
-input_text = tk.StringVar()
-input_field = tk.Entry(..., textvariable=input_text)
+input_text = tk.StringVar()  # Создание строковой переменной
+input_field = tk.Entry(
+    ...,                      # Другие параметры поля ввода
+    textvariable=input_text   # Привязка переменной к полю
+)
 ```
