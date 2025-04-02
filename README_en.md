@@ -48,6 +48,7 @@ root.geometry("300x400")         # Set a fixed window size
 
 
 #### Example of creating a button:
+```python
 button = tk.Button(
     root,                     # Parent window for the button
     text="Click me",          # Text displayed on the button
