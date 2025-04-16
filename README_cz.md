@@ -1,36 +1,41 @@
-# GUI: Tkinter
+# GUI: Tkinter (grafické uživatelské rozhraní)
 
-### Before You Start
-1. Make sure you have Python 3.x installed. We will use one of the built-in libraries, so no additional software installation is required.
-2. Download the ZIP from this GitHub.
-3. Try running the code. If you encounter errors copy the code, paste it into a new empty document, and save it as a Python file.
-4. If the problem is not resolved, let someone from my team know.
+### Než začneš
+1. Ujisti se, že máš nainstalovaný Python 3.x. Používáme vestavěnou knihovnu, takže není potřeba nic instalovat navíc.
+2. Stáhni si ZIP soubor z tohoto GitHub repozitáře.
+3. Zkus spustit kód. Pokud narazíš na chybu, zkopíruj kód, vlož ho do nového prázdného souboru a ulož jako Python soubor (.py).
+4. Pokud problém přetrvává, kontaktuj někoho z mého týmu.
 
-I will be talking about the Tkinter library. At each stage, you will first see a simple example for clarity, followed by how it is used in my code.
+V tomto dokumentu mluvím o knihovně Tkinter. V každé části nejprve uvidíš jednoduchý příklad pro přehlednost a poté ukázku, jak je to použité v mém kódu.
 
-# What is Tkinter?
+---
 
-**Tkinter** is the standard Python library for creating graphical user interfaces (GUI). It allows you to create windows, buttons, text fields, and other UI elements. Tkinter is based on the Tk library, which was originally developed for the Tcl language.
+## Co je to Tkinter?
 
-## Basic Principles of Tkinter
+**Tkinter** je standardní knihovna Pythonu pro vytváření grafických uživatelských rozhraní (GUI). Umožňuje vytvářet okna, tlačítka, textová pole a další prvky rozhraní. Tkinter je založen na knihovně Tk, která byla původně vytvořena pro jazyk Tcl.
 
-### 1. Main Window
-Every Tkinter application starts by creating a main window. This window serves as a container for all other UI elements. It is created using the `Tk` class:
+---
 
-#### Basic Example:
+## Základní principy Tkinteru
+
+### 1. Hlavní okno
+
+Každá Tkinter aplikace začíná vytvořením hlavního okna pomocí třídy `Tk`.
+
+#### Jednoduchý příklad:
 ```python
-import tkinter as tk  # Import the Tkinter library
+import tkinter as tk  # Import knihovny Tkinter
 
-root = tk.Tk()        # Create the root window
-root.title("My Application")  # Set the window title
-root.mainloop()       # Start the main event loop
+root = tk.Tk()        # Vytvoření hlavního okna
+root.title("Moje aplikace")  # Nastavení názvu okna
+root.mainloop()       # Spuštění hlavní smyčky událostí
 ```
 
 #### Example from my code:
 ```python
-root = tk.Tk()                   # Create the main calculator window
-root.title("Calculator")         # Set the title "Calculator"
-root.geometry("300x400")         # Set a fixed window size
+root = tk.Tk()                  # Vytvoření hlavního okna kalkulačky
+root.title("Calculator")         # Nastavení názvu okna
+root.geometry("300x400")         # Pevná velikost okna
 ```
 
 
@@ -38,178 +43,175 @@ root.geometry("300x400")         # Set a fixed window size
 
 ### 2. Widgets
 
-**Widgets** — are UI elements such as buttons, labels, text fields, etc. In Tkinter, each widget is an instance of a specific class. For example:
+**Widgets** — jsou prvky uživatelského rozhraní jako tlačítka, popisky (label), vstupní pole atd. V Tkinteru je každý widget instancí určité třídy.
 
-- **`tk.Label`** — a label for displaying text.
-- **`tk.Button`** — a button that performs an action when clicked.
-- **`tk.Entry`** — a text input field.
-- **`tk.Frame`** — a container for grouping other widgets.
+- **`tk.Label`** — textový popisek.
+- **`tk.Button`** —  tlačítko, které po kliknutí provede akci.
+- **`tk.Entry`** — vstupní textové pole.
+- **`tk.Frame`** — kontejner pro seskupení widgetů.
 
 
-
-#### Example of creating a button:
+#### Vytvoření tlačítka:
 ```python
 button = tk.Button(
-    root,                     # Parent window for the button
-    text="Click me",          # Text displayed on the button
-    command=some_function     # Function to be executed when clicked
+    root,                 # Rodičovské okno
+    text="Klikni na mě",  # Text na tlačítku
+    command=some_function # Funkce spuštěná po kliknutí
 )
-button.pack()                # Place the button in the window
+button.pack()             # Umístění tlačítka do okna
 ```
 
 
-#### Examples from my code:
+#### Ukázky z mého kódu:
 
-**`tk.Entry`** — text input field:
+**`tk.Entry`** — vstupní pole:
 ```python
 input_field = tk.Entry(
-    input_frame,                     # Parent container (Frame)
-    font=('arial', 18, 'bold'),      # Font and its properties
-    textvariable=input_text,         # Binding to a StringVar variable
-    width=50,                        # Width in characters
-    bg="#eee",                       # Background color (light gray)
-    bd=0,                            # Border thickness (0 - no border)
-    justify=tk.RIGHT                 # Right-align text
+    input_frame,                     # Nádoba (Frame)
+    font=('arial', 18, 'bold'),      # Písmo a jeho vlastnosti
+    textvariable=input_text,         # Propojení s proměnnou typu StringVar
+    width=50,                        # Šířka v počtu znaků
+    bg="#eee",                       # Barva pozadí (světle šedá)
+    bd=0,                            # Tloušťka okraje (0 – bez okraje)
+    justify=tk.RIGHT                 # Zarovnání textu vpravo
 )
 ```
 
-**`tk.Button`** — calculator buttons:
+**`tk.Button`** — tlačítka kalkulačky:
 ```python
 tk.Button(
-    buttons_frame,                   # Container for placing buttons
-    text=button,                     # Button text (number/operator)
-    fg="black",                      # Text color (foreground)
-    width=10,                        # Button width
-    height=3,                        # Button height
-    bd=0,                            # Border thickness
-    bg="#fff",                       # Background color
-    cursor="hand2",                  # Cursor style when hovered
-    command=lambda x=button:         # Click event handler:
-        button_click(x) if x != '='  # For numbers and operators
-        else button_equal()          # For the "=" button
+    buttons_frame,                   # Kontejner pro tlačítka
+    text=button,                     # Text na tlačítku (číslo nebo operátor)
+    fg="black",                      # Barva textu
+    width=10,                        # Šířka tlačítka
+    height=3,                        # Výška tlačítka
+    bd=0,                            # Tloušťka okraje
+    bg="#fff",                       # Barva pozadí
+    cursor="hand2",                  # Styl kurzoru při najetí
+    command=lambda x=button:         # Funkce po kliknutí:
+        button_click(x) if x != '='  # Pro čísla a operátory
+        else button_equal()          # Pro tlačítko "="
 )
 ```
 
-**`tk.Frame`** — container for grouping widgets:
+**`tk.Frame`** — kontejnery pro seskupení prvků:
 ```python
 input_frame = tk.Frame(
-    root,                           # Parent window
-    width=312,                      # Width in pixels
-    height=50,                      # Height in pixels
-    bd=0,                           # Border thickness
-    highlightbackground="black",    # Frame border color
-    highlightcolor="black",         # Active border color
-    highlightthickness=1            # Border thickness
+    root,                            # Hlavní okno
+    width=312,                       # Šířka v pixelech
+    height=50,                       # Výška v pixelech
+    bd=0,                            # Tloušťka okraje
+    highlightbackground="black",     # Barva orámování
+    highlightcolor="black",          # Barva aktivního orámování
+    highlightthickness=1             # Tloušťka orámování
 )
 
 buttons_frame = tk.Frame(
-    root,                           # Parent window
-    width=312,                      # Width in pixels
-    height=272.5,                   # Height in pixels
-    bg="grey"                       # Background color
+    root,                            # Hlavní okno
+    width=312,                       # Šířka v pixelech
+    height=272.5,                    # Výška v pixelech
+    bg="grey"                        # Barva pozadí
 )
 ```
 
 
 
 
-### 3. Geometry Management
+### 3. Správa geometrie (umístění prvků)
 
-To display widgets in the window, you need to place them using one of three geometry managers:
+Pro zobrazení prvků je potřeba je umístit pomocí jednoho ze tří správců geometrie:
 
-- **`pack()`** — automatically arranges widgets in the window.
-- **`grid()`** — arranges widgets in a table format (rows and columns).
-- **`place()`** — allows specifying exact coordinates for widget placement.
+- **`pack()`** — automaticky umisťuje prvky.
+- **`grid()`** — uspořádává prvky do tabulky (řádky a sloupce).
+- **`place()`** — umožňuje zadat přesné souřadnice.
 
-#### Example using **`grid()`**:
+#### Příklad s **`grid()`**:
 
 ```python
 label = tk.Label(
-    root,                    # Parent window
-    text="Hello, Tkinter!"   # Label text
+    root,                    # Hlavní okno
+    text="Hello, Tkinter!"   # Text štítku
 )
 label.grid(
-    row=0,       # Row number in the grid
-    column=0     # Column number in the grid
+    row=0,       # Číslo řádku v mřížce
+    column=0     # Číslo sloupce v mřížce
 )
 ```
 
 
-#### Example from my code
+#### Příklad z mého kódu
 
-**`pack()`** — placing widgets:
+**`pack()`** — umístění prvků:
 ```python
 input_frame.pack(
-    side=tk.TOP  # Place at the top of the window
+    side=tk.TOP  # Umístění nahoře v okně
 )
-buttons_frame.pack()  # Place below the previous element
+buttons_frame.pack()  # Umístění pod předchozím prvkem
 ```
 
 **`grid()`** — arranging buttons in a table format:
 ```python
 tk.Button(buttons_frame, ...).grid(
-    row=row,     # Row number for the button
-    column=col,  # Column number for the button
-    padx=1,      # Horizontal padding
-    pady=1       # Vertical padding
+    row=row,     # Číslo řádku
+    column=col,  # Číslo sloupce
+    padx=1,      # Horizontální odsazení
+    pady=1       # Vertikální odsazení
 )
 ```
 
 
 
-### 4. Event Handling
+### 4. Zpracování událostí (Event Handling)
 
-Tkinter allows reacting to user actions, such as **button clicks** or **text input**. This is done using the `command` parameter in widgets (e.g., buttons) or event binding with the `bind` method.
+Tkinter umožňuje reagovat na akce uživatele, jako je **kliknutí na tlačítko** nebo **vstup textu**. This is done using the `command` parameter in widgets (e.g., buttons) or event binding with the `bind` method.
 
-#### Example of handling a button click:
+#### Příklad: reakce na kliknutí tlačítka:
 ```python
 def button_click(item):
-    global expression       # Using a global variable
-    expression += str(item) # Append a character to the expression
-    input_text.set(expression)  # Update the text in the input field
+    global expression            # Použití globální proměnné
+    expression += str(item)      # Přidání znaku do výrazu
+    input_text.set(expression)   # Aktualizace textu ve vstupním poli
 ```
 
-#### Example from my code
-
-**`button_click`**  — handling button clicks:
+#### Příklad z mého kódu
+**`button_click`**  — zpracování kliknutí na tlačítko:
 ```python
 def button_clear():
-    global expression       # Using a global variable
-    expression = ""         # Reset the expression
-    input_text.set("")      # Clear the input field
-
+    global expression        # Použití globální proměnné
+    expression = ""          # Resetování výrazu
+    input_text.set("")       # Vymazání vstupního pole
 ```
 
-**`button_clear`** — clearing the input field:
+**`button_clear`** — vymazání vstupního pole:
 ```python
 def button_equal():
-    global expression       # Using a global variable
+    global expression        # Použití globální proměnné
     try:
-        result = str(eval(expression))  # Evaluate the expression
-        input_text.set(result)          # Display the result
-        expression = result             # Store the result
+        result = str(eval(expression))  # Vyhodnocení výrazu
+        input_text.set(result)          # Zobrazení výsledku
+        expression = result             # Uložení výsledku
     except:
-        input_text.set("Error")        # Display an error
-        expression = ""                # Reset the expression
+        input_text.set("Error")         # Zobrazení chyby
+        expression = ""                 # Resetování výrazu
 ```
 
-**`button_equal`** — calculating the result:
+**`button_equal`** — výpočet výsledku:
 ```python
 def button_equal():
     global expression
     try:
-        result = str(eval(expression))
-        input_text.set(result)
-        expression = result
+        result = str(eval(expression))     # Vyhodnocení výrazu
+        input_text.set(result)             # Zobrazení výsledku
+        expression = result                # Uložení výsledku
     except:
-        input_text.set("Error")
-        expression = ""
+        input_text.set("Error")            # Zobrazení chyby
+        expression = ""                    # Resetování výrazu
 ```
 
 
-### 5. Tkinter Variables
+### 5. Proměnné v Tkinteru
 
-Tkinter provides special variables ( **`StringVar`**,  **`IntVar`**,  **`DoubleVar`** etc.) that allow linking data to widgets. For example, **`StringVar`** is used to store text that can be linked to a label or input field.
+Tkinter poskytuje speciální typy proměnných jako ( **`StringVar`**,  **`IntVar`**,  **`DoubleVar`** etc.) apod., které umožňují propojit data s widgety. Například **`StringVar`** uchovává text, který lze navázat na štítek nebo vstupní pole.
 
 ```python
 text_var = tk.StringVar()
@@ -217,12 +219,12 @@ label = tk.Label(root, textvariable=text_var)
 text_var.set("Hello, Tkinter!")
 ```
 
-#### Example from my code
-**`tk.StringVar`** — linking text to an input field:
+#### Příklad z mého kódu
+**`tk.StringVar`** — propojení textu se vstupním polem:
 ```python
-input_text = tk.StringVar()  # Create a StringVar variable
+input_text = tk.StringVar()     # Vytvoření proměnné typu StringVar
 input_field = tk.Entry(
-    ...,                      # Other input field parameters
-    textvariable=input_text   # Bind the variable to the input field
+    ...,                        # Ostatní parametry vstupního pole
+    textvariable=input_text     # Navázání proměnné na vstupní pole
 )
 ```
